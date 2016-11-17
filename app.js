@@ -17,9 +17,9 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(bodyParser.json());//发起异步请求请求参数为JSON数据时，req.body能解析该数据
+app.use(bodyParser.urlencoded({ extended: false }));//接受form表单提交的数据，extended选项允许配置使用querystring(false)或qs(true)来解析数据，默认值是true，但这已经是不被赞成的了。故设为false
+app.use(cookieParser());//用于获取web浏览器发送的cookie中的内容
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
