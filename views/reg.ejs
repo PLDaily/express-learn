@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<title><%= title %></title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel='stylesheet' href='/stylesheets/reg.css' />
+		<!-- 新 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	</head>
+	<body>
+	    <div class="container">
+		    <div class="reg">
+		        <form method="post">
+		            <br>
+		            <div id="login" class="panel panel-primary">
+		                <div class="panel-heading">
+		                    注册
+		                </div>
+		                <div class="panel-body">
+		                    <div class="form-group">
+		                        <label>用户名:</label><input type="text" class="form-control"  placeholder="username" name="name">
+		                        <br>
+		                        <label>密码:</label><input type="password" class="form-control"  placeholder="password" name="password">
+		                        <br>
+		                        <label>确认密码:</label><input type="password" class="form-control"  placeholder="password" name="password-repeat">
+		                        <br>
+		                        <label>邮箱:</label><input type="email" class="form-control"  placeholder="email" name="email">
+		                    </div>
+		                    <input type="submit" value="注册" class="btn btn-primary pull-right">
+		                </div>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+  	</body>
+</html>
