@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +22,9 @@ app.use(bodyParser.json());//发起异步请求请求参数为JSON数据时，re
 app.use(bodyParser.urlencoded({ extended: false }));//接受form表单提交的数据，extended选项允许配置使用querystring(false)或qs(true)来解析数据，默认值是true，但这已经是不被赞成的了。故设为false
 app.use(cookieParser());//用于获取web浏览器发送的cookie中的内容
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: "express-learn"
+}))
 
 app.use('/', routes);
 app.use('/users', users);
