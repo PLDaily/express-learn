@@ -28,7 +28,7 @@ User.prototype.save = function(callback) {
 				if(err) {
 					return callback(err);
 				}
-				callback(err, user[0]);
+				callback(err, user);
 			})
 		})
 	})

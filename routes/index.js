@@ -6,11 +6,19 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', checkLogin);
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+	res.render('index', { 
+		title: 'Express' ,
+		success: req.flash('success').toString(),
+		error: req.flash('error').toString()
+	});
 });
 
 router.get('/reg', function(req, res, next) {
-	res.render('reg', { title: '注册'} );
+	res.render('reg', { 
+		title: '注册',
+		success: req.flash('success').toString(),
+  		error: req.flash('error').toString()
+	} );
 });
 
 router.post('/reg', function(req, res, next) {
@@ -45,14 +53,18 @@ router.post('/reg', function(req, res, next) {
 			}
 			if(user) {
 				req.flash('success', '注册成功');
-				res.redirect('/login');
+				return res.redirect('/login');
 			}
 		})
 	})
 })
 
 router.get('/login', function(req, res, next) {
-	res.render('login', { title: '登录'});
+	res.render('login', { 
+		title: '登录',
+		success: req.flash('success').toString(),
+  		error: req.flash('error').toString()
+	});
 })
 
 router.post('/login', function(req, res, next) {
@@ -75,7 +87,6 @@ router.post('/login', function(req, res, next) {
 		res.redirect('/');
 	})
 })
-
 
 function checkLogin(req, res, next) {
 	if(!req.session.user) {

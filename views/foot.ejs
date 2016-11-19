@@ -1,0 +1,16 @@
+		<script type="text/javascript" src="/javascripts/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/javascripts/alert.js"></script>
+		<script type="text/javascript">
+		;(function() {
+			var msgSuccess = "<%= success %>";
+			var msgError = "<%= error %>"
+			if(msgSuccess) {
+				alert(msgSuccess, 2000, 'ok');
+			}
+			if(msgError) {
+				alert(msgError, 2000, 'err');
+			}
+		})();
+		</script>
+  	</body>
+</html>
