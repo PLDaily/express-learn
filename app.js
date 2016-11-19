@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,7 +25,9 @@ app.use(cookieParser());//用于获取web浏览器发送的cookie中的内容
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: "express-learn"
-}))
+}));
+app.use(flash());//flash是一个暂存器，而且暂存器里面的值使用过一次即被清空，用于做网站的提示信息
+
 
 app.use('/', routes);
 app.use('/users', users);

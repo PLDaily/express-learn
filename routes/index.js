@@ -31,18 +31,20 @@ router.post('/reg', function(req, res, next) {
 	
 	User.get(newUser.name, function(err, user) {
 		if(err) {
-			return;
+			req.flash('error', err.toString());
+			return res.redirect('/reg');
 		}
 		if(user) {
-			console.log('该用户已存在');
-			return;
+			req.flash('error', '该用户已存在')
+			return res.redirect('/reg');
 		}
 		newUser.save(function(err, user) {
 			if(err) {
-				return;
+				req.flash('error', err.toString());
+				return res.redirect('/reg');
 			}
 			if(user) {
-				console.log('保存成功');
+				req.flash('success', '注册成功');
 				res.redirect('/login');
 			}
 		})
@@ -54,22 +56,20 @@ router.get('/login', function(req, res, next) {
 })
 
 router.post('/login', function(req, res, next) {
-	console.log(req.body.name);
-	console.log(req.body.password);
 	var name = req.body.name;
 	var password = req.body.password;
 	
 	var md5 = crypto.createHash('md5');
 	password = md5.update(password).digest('hex');
-	
+
 	User.get(name, function(err, user) {
 		if(!user) {
-			console.log('该用户不存在');
-			res.redirect('/login');
+			req.flash('error', '该用户不存在');
+			return res.redirect('/login');
 		}
 		if(user.password != password) {
-			console.log('密码错误');
-			res.redirect('/login');
+			req.flash('error', '密码错误');
+			return res.redirect('/login');
 		}
 		req.session.user = user;
 		res.redirect('/');
@@ -79,8 +79,8 @@ router.post('/login', function(req, res, next) {
 
 function checkLogin(req, res, next) {
 	if(!req.session.user) {
-		console.log('未登录');
-		res.redirect('/login');
+		req.flash('error', '未登录');
+		return res.redirect('/login');
 	}
 	next();//使用之后才会执行下一段
 }
