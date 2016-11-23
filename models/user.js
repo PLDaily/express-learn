@@ -21,6 +21,7 @@ User.prototype.save = function(callback) {
 		}
 		db.collection('users', function(err, collection) {
 			if(err) {
+				mongodb.close();
 				return callback(err);
 			}
 			collection.insert(user, {save: true}, function(err, user) {
@@ -41,6 +42,7 @@ User.get = function(name, callback) {
 		}
 		db.collection('users', function(err, collection) {
 			if(err) {
+				mongodb.close();
 				return callback(err);
 			}
 

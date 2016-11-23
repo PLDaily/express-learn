@@ -1,14 +1,17 @@
 var express = require('express');
 var User = require('../models/user.js');
+var Photo = require('../models/photo.js');
 var crypto = require('crypto');
 var multer = require('multer');
 var path = require('path');
+
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, path.join(__dirname, "../public/uploads"));
     },
     filename: function(req, file, callback) {
-        callback(null, Date.now().toString() + file.originalname);
+        //callback(null, Date.now().toString() + file.originalname);
+        callback(null, file.originalname);
     }
 });
 var muilter = multer({ storage: storage});
@@ -104,34 +107,70 @@ router.post('/login', function(req, res, next) {
 	})
 })
 
-router.get('/upload', checkLogin);
+//router.get('/upload', checkLogin);
 router.get('/upload', function(req, res, next) {
-	res.render('upload', {
-		title: '文件上传',
-		user: req.session.user,
-		success: req.flash('success').toString(),
-		error: req.flash('error').toString()
+	Photo.getAll(function(err, photos) {
+		if(err) {
+			req.flash('error', err.toString());
+			return res.redirect('/upload');
+		}
+		res.render('upload', {
+			title: '文件上传',
+			user: req.session.user,
+			photos: photos,
+			success: req.flash('success').toString(),
+			error: req.flash('error').toString()
+		})
 	})
 })
+
 router.post('/uploadSingle', function(req, res, next) {
 	var upload = muilter.single('uploadInput');
 	upload(req, res, function(err) {
 		if(err) {
-			req.flash('err', err.toString());
+			req.flash('error', err.toString());
 			return res.redirect('/upload');
 		}
-		req.flash('success', '上传成功');
-		res.redirect('/upload');
+
+		var photo = {
+			name: req.file.originalname,
+			path: req.file.originalname
+		};
+
+		var newPhoto = new Photo(photo);
+		newPhoto.save(function(err, photo) {
+			if(err) {
+				req.flash('error', err.toString());
+				return res.redirect('/upload');
+			}
+			req.flash('success', '上传成功');
+			res.redirect('/upload');
+		});
 	})
 })
 
 router.post('/uploadArray', function(req, res, next) {
 	var upload = muilter.array('uploadInput', 3);
+	var photos = [];
     upload(req, res, function(err) {
     	if(err) {
-    		req.flash('err', err.toString());
+    		req.flash('error', err.toString());
     		return res.redirect('/upload');
     	}
+    	for(var i = 0; i < req.files.length; i++) {
+    		var photo = {
+				name: req.files[i]['originalname'],
+				path: req.files[i]['originalname']
+			};
+			photos.push(photo);
+    	}
+    	var newPhoto = new Photo(photos);
+		newPhoto.save(function(err, photo) {
+			if(err) {
+				req.flash('error', err.toString());
+				return res.redirect('/upload');
+			}
+		});	
     	req.flash('success', '上传成功');
     	res.redirect('/upload');
     })
