@@ -113,7 +113,7 @@ router.get('/upload', function(req, res, next) {
 		error: req.flash('error').toString()
 	})
 })
-router.post('/upload', function(req, res, next) {
+router.post('/uploadSingle', function(req, res, next) {
 	var upload = muilter.single('uploadInput');
 	upload(req, res, function(err) {
 		if(err) {
@@ -123,6 +123,18 @@ router.post('/upload', function(req, res, next) {
 		req.flash('success', '上传成功');
 		res.redirect('/upload');
 	})
+})
+
+router.post('/uploadArray', function(req, res, next) {
+	var upload = muilter.array('uploadInput', 3);
+    upload(req, res, function(err) {
+    	if(err) {
+    		req.flash('err', err.toString());
+    		return res.redirect('/upload');
+    	}
+    	req.flash('success', '上传成功');
+    	res.redirect('/upload');
+    })
 })
 
 

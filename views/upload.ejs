@@ -1,6 +1,38 @@
 <%- include head %>
-    <form enctype="multipart/form-data" method="post">
-        <input type="file" name="uploadInput" />
-        <input id='submitFile' type="submit" />
-    </form>
+
+    
+
+    <div class="container">
+	    <ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="presentation active" title="singleUpload"><a href="#">单个上传</a></li>
+			<li role="presentation" class="presentation"><a href="#" title="arrayUpload">多个上传</a></li>
+		</ul>
+		<br>
+		<form enctype="multipart/form-data" method="post" action="/uploadSingle" id="uploadSingle">
+	        <input type="file" name="uploadInput" /> 
+	        <input id='submitFileSingle' type="submit" />
+	    </form>
+
+		<br>
+	    <form enctype="multipart/form-data" method="post" action="/uploadArray" id="uploadArray" style="display: none;">
+	        <input type="file" name="uploadInput" />
+	        <input type="file" name="uploadInput" />
+	        <input type="file" name="uploadInput" />
+	        <input id='submitFileArray' type="submit" />
+	    </form>
+	</div>
+	<script type="text/javascript">
+	(function() {
+		$('.nav').on('click', '.presentation', function() {
+			$(this).addClass('active').siblings().removeClass('active');
+			if($(this).attr('title') == 'singleUpload') {
+				$('#uploadSingle').show();
+				$('#uploadArray').hide()
+			}else {
+				$('#uploadSingle').hide();
+				$('#uploadArray').show()
+			}
+		});
+	})();
+	</script>
 <%- include foot %>
