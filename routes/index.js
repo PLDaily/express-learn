@@ -126,6 +126,11 @@ router.get('/upload', function(req, res, next) {
 
 router.post('/uploadSingle', function(req, res, next) {
 	var upload = muilter.single('uploadInput');
+	/*console.log(upload);
+	console.log(req.body.uploadInput);
+	console.log(req.body.file);
+	console.log(req.body.file.name);
+	console.log(1111);*/
 	upload(req, res, function(err) {
 		if(err) {
 			req.flash('error', err.toString());
