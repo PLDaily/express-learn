@@ -1,5 +1,5 @@
 var mongodb = require('./db.js');
-
+var ObjectId = require('mongodb').ObjectID;
 function Photo(photo) {
 	this.name = [];
 	this.path = [];
@@ -64,6 +64,27 @@ Photo.getAll = function(callback) {
 					return callback(err);
 				}
 				callback(err, photos);
+			})
+		})
+	})
+}
+
+Photo.findById = function(id, callback) {
+	mongodb.open(function(err, db) {
+		if(err) {
+			return callback(err);
+		}
+		db.collection('photos', function(err, collection) {
+			if(err) {
+				mongodb.close();
+				return callback(err);
+			}
+			collection.find({_id: ObjectId(id)}).toArray(function(err, photo) {
+				mongodb.close();
+				if(err) {
+					return callback(err);
+				}
+				callback(err, photo);
 			})
 		})
 	})

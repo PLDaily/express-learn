@@ -181,6 +181,16 @@ router.post('/uploadArray', function(req, res, next) {
     })
 })
 
+router.get('/uploads/:id/download', checkLogin);
+router.get('/uploads/:id/download', function(req, res, next) {
+	var id = req.params.id;
+	Photo.findById(id, function(err, photo){
+		var photoObj = photo[0];
+		if (err) return next(err);
+		var imgPath = path.join(__dirname, "../public/uploads/" + photoObj.path);
+		res.download(imgPath, photoObj.name);
+    });
+})
 
 router.get('/logout', checkLogin);
 router.get('/logout', function(req, res, next) {
