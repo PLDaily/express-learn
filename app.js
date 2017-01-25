@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));//接受form表单提交的�
 app.use(cookieParser());//用于获取web浏览器发送的cookie中的内容
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: "express-learn"
+  secret: "express-learn",
+  cookie: { maxAge: 60 * 1000 }//关闭浏览器重新打开显示用户处于登录状态
 }));
 app.use(flash());//flash是一个暂存器，而且暂存器里面的值使用过一次即被清空，用于做网站的提示信息
 
